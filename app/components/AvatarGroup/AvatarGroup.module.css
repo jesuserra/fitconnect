@@ -1,0 +1,6 @@
+.circles {
+    display: flex;
+    position: relative;
+    align-items: center;
+    background-color: transparent;
+}

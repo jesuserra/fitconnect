@@ -1,0 +1,9 @@
+.grid {
+  width: 900px;
+  display: grid;
+  background-color: white;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 1rem;
+  /* width: 100%; */
+  transition: all 1s;
+}
