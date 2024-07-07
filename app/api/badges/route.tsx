@@ -1,4 +1,4 @@
-import { IBadge } from '@/models/Badge'
+import { IBadge } from '@/app/models/Badge'
 // import { NextResponse } from 'next/server'
 
 // export async function GET() {

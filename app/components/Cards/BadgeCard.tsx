@@ -1,4 +1,4 @@
-import { IBadge } from '@/models/Badge'
+import { IBadge } from '@/app/models/Badge'
 import React, { ReactElement } from 'react'
 
 export default function BadgeCard ({ badge, completed, progress }: { badge: IBadge, completed: boolean, progress?: number }): ReactElement {

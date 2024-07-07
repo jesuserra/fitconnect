@@ -1,6 +1,6 @@
 'use client'
 
-import { IChallenge } from '@/models/Challenge'
+import { IChallenge } from '@/app/models/Challenge'
 import { ReactElement } from 'react'
 
 export default function ChallengeCardCarousel ({ challenge }: { challenge: IChallenge }): ReactElement {

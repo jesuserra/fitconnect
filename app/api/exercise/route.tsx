@@ -1,4 +1,4 @@
-import { IExercise } from '@/models/Exercise'
+import { IExercise } from '@/app/models/Exercise'
 
 // IMAGENES: https://www.shutterstock.com/es/search/pullups?image_type=illustration
 export const exercises: IExercise[] = [

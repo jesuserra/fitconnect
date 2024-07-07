@@ -1,6 +1,7 @@
+import Athlete from '@/app/models/Athlete'
 import { NextResponse } from 'next/server'
 
-export async function PUT(request: any, { params }: { params: any }): Promise<NextResponse> {
+export async function PUT (request: any, { params }: { params: any }): Promise<NextResponse> {
   try {
     const data = await request.json()
     console.log('aa', data)

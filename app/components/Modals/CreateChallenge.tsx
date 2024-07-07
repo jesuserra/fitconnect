@@ -3,46 +3,27 @@ import Button from '../Button'
 import Input from '../Input'
 import Dropdown from '../Dropdown'
 import Dialog from './Dialog'
+import { createChallenge } from '@/app/services/challengeServices'
 
 interface Challenge {
   title: string
   description: string
-  difficulty: number
+  difficulty: 1 | 2 | 3 | 4
   points: number
-  file: File | null
+  createdBy: string
 }
 export default function CreateChallenge (): ReactElement {
   // Pasar el id del usuario logeado
   const userId = '666d5021add60d0314e1ee09'
 
   async function handleCreate (): Promise<void> {
-    const formData = new FormData()
-    formData.append('title', challenge.title)
-    formData.append('description', challenge.description)
-    formData.append('difficulty', challenge.difficulty.toString())
-    formData.append('points', challenge.points.toString())
-    formData.append('createdBy', userId)
-
-    if (challenge.file !== null) {
-      formData.append('file', challenge.file)
-    }
-    try {
-      await fetch('/api/challenges', {
-        method: 'POST',
-        // headers: {
-        //   'Content-Type': 'application/json'
-        // },
-        body: formData
-      })
-    } catch (error: any) {
-      console.log(error)
-    }
+    createChallenge(challenge)
     setChallenge({
       title: '',
       description: '',
-      difficulty: 0,
+      difficulty: 1,
       points: 0,
-      file: null
+      createdBy: userId
     })
     handleClose()
   }
@@ -50,9 +31,9 @@ export default function CreateChallenge (): ReactElement {
   const [challenge, setChallenge] = useState<Challenge>({
     title: '',
     description: '',
-    difficulty: 0,
+    difficulty: 1,
     points: 0,
-    file: null
+    createdBy: userId
   })
 
   function handleClose (): void {
@@ -66,8 +47,15 @@ export default function CreateChallenge (): ReactElement {
         <Input type='text' placeholder='Nombre del reto *' onChange={(e) => setChallenge({ ...challenge, title: e })} value={challenge.title} />
         <Input type='text' placeholder='Descripción *' onChange={(e) => setChallenge({ ...challenge, description: e })} value={challenge.description} />
         <Input type='number' placeholder='Puntuación sugerida' onChange={(e) => setChallenge({ ...challenge, points: Number(e) })} value={challenge.points.toString()} />
-        <Dropdown options={['Muy fácil', 'Fácil', 'Medio', 'Difícil', 'Muy díficil']} onChange={(e) => setChallenge({ ...challenge, difficulty: ['Muy fácil', 'Fácil', 'Medio', 'Difícil', 'Muy díficil'].indexOf(e) })} />
-        <input type='file' accept='image/*' onChange={(e) => setChallenge({ ...challenge, file: e.target.files !== null ? e.target.files[0] : null })} />
+        <Dropdown
+          options={[
+            { id: '1', value: 'Fácil' },
+            { id: '2', value: 'Medio' },
+            { id: '3', value: 'Dificil' },
+            { id: '4', value: 'Muy dificil' }
+          ]}
+          onChange={(e) => setChallenge({ ...challenge, difficulty: parseInt(e.id) as 1 | 2 | 3 | 4 })}
+        />
         <Button onClick={handleCreate}>Crear reto</Button>
       </div>
     </Dialog>

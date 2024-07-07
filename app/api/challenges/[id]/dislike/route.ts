@@ -1,8 +1,8 @@
 import { connectDB } from '@/app/utils/mongoose'
-import Challenge from '@/models/Challenge'
-import { NextResponse } from 'next/server';
+import Challenge from '@/app/models/Challenge'
+import { NextResponse } from 'next/server'
 
-export async function PUT(req: Request, { params: { id } }: { params: { id: string } }): Promise<NextResponse> {
+export async function PUT (req: Request, { params: { id } }: { params: { id: string } }): Promise<NextResponse> {
   await connectDB()
 
   try {

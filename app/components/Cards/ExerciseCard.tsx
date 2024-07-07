@@ -1,5 +1,5 @@
 import { exercises } from '@/app/api/exercise/route'
-import { IExercise } from '@/models/Exercise'
+import { IExercise } from '@/app/models/Exercise'
 import { ReactElement } from 'react'
 
 export function ExerciseCard ({ exerciseId, reps, series }: { exerciseId: string, reps: number | string, series: number }): ReactElement {

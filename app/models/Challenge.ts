@@ -6,7 +6,7 @@ const challengeSchema = new Schema({
   difficulty: { type: Number, required: true },
   points: { type: Number, default: 0 },
   likes: { type: Number, required: true, default: 0 },
-  urlImage: { type: String, required: true },
+  urlImage: { type: String, required: false },
   approved: { type: Boolean, default: false },
   createdBy: { type: Schema.Types.ObjectId, ref: 'Athlete' }
 })
@@ -23,10 +23,25 @@ export interface IChallenge {
 
   title: string
   description: string
-  difficulty: 0 | 1 | 2 | 3 | 4
+  difficulty: 1 | 2 | 3 | 4
   points: number
-  likes: number
-  urlImage: string
+  likes?: number
+  urlImage?: string
   approved: boolean
+  createdBy: string
+}
+
+export interface ICreateChallenge {
+  _id?: string
+  createdAt?: string
+  updatedAt?: string
+
+  title: string
+  description: string
+  difficulty: 1 | 2 | 3 | 4
+  points: number
+  likes?: number
+  urlImage?: string
+  approved?: boolean
   createdBy: string
 }

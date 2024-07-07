@@ -6,7 +6,7 @@ import UpButton from './UpButton'
 import DownButton from './DownButton'
 import CommentModal from './Modals/CommentModal'
 import { useRouter } from 'next/navigation'
-import { IRoutine } from '@/models/Routines'
+import { IRoutine } from '@/app/models/Routines'
 
 export default function RoutineCard ({ routine }: { routine: IRoutine }) {
   const router = useRouter()
@@ -35,7 +35,7 @@ export default function RoutineCard ({ routine }: { routine: IRoutine }) {
     <div onMouseEnter={() => setShowActions(true)} onMouseLeave={handleLeave} className='w-[576px] relative flex flex-col items-center '>
       <div className='overflow-hidden rounded-2xl border border-[--border] hover:border-[--border-hover]'>
         <a
-          href={`/routines/${routine.id}`}
+          href={`routines/${routine.id}`}
           className='flex flex-col items-center md:flex-row md:max-w-xl'
         >
           <img
@@ -73,8 +73,8 @@ export default function RoutineCard ({ routine }: { routine: IRoutine }) {
     </div>
   )
 }
-{
-  /*
+
+/*
     <div classNameName='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
       <a href='#'>
         <img
@@ -154,4 +154,3 @@ export default function RoutineCard ({ routine }: { routine: IRoutine }) {
         </div>
       </div>
     </div> */
-}

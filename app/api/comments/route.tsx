@@ -1,4 +1,4 @@
-import { IComment } from '@/models/Comment'
+import { IComment } from '@/app/models/Comment'
 
 export const comments: IComment[] = [
   {

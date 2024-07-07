@@ -1,11 +1,31 @@
 import Challenge from '@/app/models/Challenge'
 import { connectDB } from '@/app/utils/mongoose'
-import { put } from '@vercel/blob'
 import { NextResponse } from 'next/server'
 
-export async function GET (): Promise<NextResponse> {
-  await connectDB()
-  const challenges = await Challenge.find().populate('createdBy')
+export async function GET (request: Request): Promise<NextResponse> {
+  connectDB()
+  const url = new URL(request.url)
+  const approved = url.searchParams.get('approved')
+  const difficulty = url.searchParams.get('difficulty')
+  let challenges
+
+  // Si eres admin, mostrara los retos que no han sido aprobados
+  if (approved !== null && approved === 'false') {
+    console.log('entro')
+    challenges = await Challenge.find({ approved: false })
+    return NextResponse.json(challenges)
+  }
+  // Si eres usuario, mostrara los retos que han sido aprobados
+  challenges = await Challenge.find({ approved: true })
+
+  // Si se pasa un parametro de dificultad, se mostraran los retos que tengan esa dificultad y esten aprobados
+  if (difficulty !== null) {
+    if (difficulty === '0') {
+      challenges = await Challenge.find({ approved: true })
+    } else {
+      challenges = await Challenge.find({ difficulty: parseInt(difficulty), approved: true })
+    }
+  }
   return NextResponse.json(challenges)
 }
 
@@ -17,13 +37,9 @@ export async function POST (request: Request): Promise<NextResponse> {
     const description = data.get('description')
     const difficulty = data.get('difficulty')
     const points = data.get('points')
-    const file = data.get('file') as File
     const createdBy = data.get('createdBy')
-    // const data = await request.json()
-    const blob = await put(title, file, {
-      access: 'public'
-    })
-    const newChallenge = new Challenge({ title, description, difficulty, points, urlImage: blob.url, createdBy })
+
+    const newChallenge = new Challenge({ title, description, difficulty, points, createdBy })
     await newChallenge.save()
     return NextResponse.json(newChallenge)
   } catch (error: any) {
