@@ -1,80 +1,52 @@
 'use client'
 
-import { IAthlete } from '@/app/models/Athlete'
-import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from 'react'
+import Button from '@/app/components/Button'
+import Container from '@/app/components/Container'
+import FlagDropdown from '@/app/components/FlagDropdown'
+import Input from '@/app/components/Input'
+import { ICreateAthlete } from '@/app/models/Athlete'
+import { createAthlete } from '@/app/services/athleteServices'
+import { countryMap } from '@/app/utils/Helpers'
+import { FormEvent, ReactElement, useState } from 'react'
 
 export default function RegisterPage (): ReactElement {
-  const [athletes, setAthletes] = useState([])
-  const [athlete, setAthlete] = useState({
+  const [athlete, setAthlete] = useState<ICreateAthlete>({
     username: '',
     name: '',
-    surname: '',
-    age: ''
+    surnames: '',
+    age: 0,
+    country: '',
+    email: '',
+    password: ''
   })
 
-  const loadAthletes = async () => {
-    const res = await fetch('/api/athletes')
-    const data = await res.json()
-    return data
-  }
-
-  // const loadChallenges = async () => {
-  //   const res = await fetch('/api/challenges')
-  //   const data = await res.json()
-  //   return data
-  // }
-
-  useEffect(() => {
-    loadAthletes()
-      .then(res => setAthletes(res))
-      .catch(err => console.log(err))
-
-    // loadChallenges()
-    // .then(res => setAthletes(res))
-    // .catch(err => console.log(err))
-  }, [])
-
   const handleSubmitAthlete = async (e: FormEvent) => {
-    e.preventDefault()
-    try {
-      const res = await fetch('/api/athletes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(athlete)
-      })
-    } catch (error: any) {
-      console.log(error)
-    }
+    createAthlete(athlete)
   }
 
-  const handleChangeAthlete = (e: ChangeEvent<HTMLInputElement>) => {
-    setAthlete({
-      ...athlete,
-      [e.target.name]: e.target.value
-    })
-  }
+  const countries = Object.keys(countryMap)
 
   return (
-    <>
-      <p>ATLETAS</p>
-      <form className='flex flex-col' onSubmit={handleSubmitAthlete}>
-        Usuario:
-        <input type='text' placeholder='Username' name='username' onChange={handleChangeAthlete} style={{ color: 'black' }} />
-        Name:
-        <input type='text' placeholder='Nombre' name='name' onChange={handleChangeAthlete} style={{ color: 'black' }} />
-        Apellidos:
-        <input type='text' placeholder='Apellido' name='surname' onChange={handleChangeAthlete} style={{ color: 'black' }} />
-        Edad:
-        <input type='text' placeholder='Edad' name='age' onChange={handleChangeAthlete} style={{ color: 'black' }} />
-        <input type='submit' value='Enviar' />
-      </form>
-      {athletes.map((athlete: IAthlete) => (
-        <p key={athlete._id}>
-          {athlete.username} -- {athlete.age} -- {athlete._id}
-        </p>
-      ))}
-    </>
+    <Container>
+      <>
+        <form className='flex flex-col' onSubmit={handleSubmitAthlete}>
+          Usuario:
+          <Input type='text' placeholder='Username' value={athlete.username} onChange={e => setAthlete({ ...athlete, username: e })} />
+          Name:
+          <Input type='text' placeholder='Nombre' value={athlete.name} onChange={e => setAthlete({ ...athlete, name: e })} />
+          Apellidos:
+          <Input type='text' placeholder='Apellido' value={athlete.surnames} onChange={e => setAthlete({ ...athlete, surnames: e })} />
+          Email:
+          <Input type='email' placeholder='Email' value={athlete.email} onChange={e => setAthlete({ ...athlete, email: e })} />
+          Edad:
+          <Input type='number' placeholder='Edad' onChange={e => setAthlete({ ...athlete, age: Number(e) })} value={athlete.age.toString()} />
+          ¿A qué país quieres representar?:
+          <FlagDropdown onChange={e => setAthlete({ ...athlete, country: e })} options={countries} />
+          Contraseña
+          <Input type='password' placeholder='Contraseña' value={athlete.password} onChange={e => setAthlete({ ...athlete, password: e })} />
+          <Button type='submit'>Enviar</Button>
+        </form>
+      </>
+    </Container>
   )
 }

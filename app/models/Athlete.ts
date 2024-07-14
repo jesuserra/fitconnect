@@ -13,12 +13,21 @@ const athleteSchema = new Schema({
     required: [true, 'Name is required'],
     trim: true
   },
-  surname: {
+  surnames: {
     type: String,
     required: [true, 'Surname is required'],
     trim: true
   },
-  age: Number
+  age: Number,
+  country: {
+    type: String,
+    required: [true, 'Country is required'],
+    trim: true
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required']
+  }
 }, {
   timestamps: true
 })
@@ -34,7 +43,7 @@ export interface IAthlete {
 
   username: string
   name: string
-  last_name: string
+  surnames: string
   age: number
   country: string
   description: string
@@ -43,4 +52,14 @@ export interface IAthlete {
   image: string
   points: number
   badges?: IBadge[]
+}
+
+export interface ICreateAthlete {
+  username: string
+  name: string
+  surnames: string
+  age: number
+  country: string
+  email: string
+  password: string
 }

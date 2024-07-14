@@ -8,21 +8,6 @@ export async function GET (): Promise<NextResponse> {
   return NextResponse.json(athletes)
 }
 
-export async function POST (request: any): Promise<NextResponse> {
-  await connectDB()
-  try {
-    const data = await request.json()
-    const newAthlete = new Athlete(data)
-    await newAthlete.save()
-    return NextResponse.json(newAthlete)
-  } catch (error: any) {
-    console.log(error)
-    return NextResponse.json(error.message, {
-      status: 400
-    })
-  }
-}
-
 // export const athletes: IAthlete[] = [
 //   {
 //     _id: 'atleta0',
