@@ -11,7 +11,7 @@ export default function Stats (): ReactElement {
       <div className='flex flex-row items-center justify-center w-full gap-4'>
         <p className='flex justify-center text-[28px] w-1/3 text-center'>retos publicados</p>
         <p className='flex justify-center text-[28px] w-1/3 text-center'>rutinas</p>
-        <p className='flex justify-center text-[28px] w-1/3 text-center'>30 atletas</p>
+        <p className='flex justify-center text-[28px] w-1/3 text-center'>atletas</p>
       </div>
     </div>
   )

@@ -1,11 +1,26 @@
 import Athlete from '@/app/models/Athlete'
 import { connectDB } from '@/app/utils/mongoose'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET (): Promise<NextResponse> {
   connectDB()
   const athletes = await Athlete.find()
   return NextResponse.json(athletes)
+}
+
+export async function POST (request: NextRequest): Promise<NextResponse> {
+  await connectDB()
+  try {
+    const data = await request.json()
+    const { username, name, surnames, age, country, email, password } = data
+    const athlete = new Athlete({ username, name, surnames, age, country, email, password })
+    await athlete.save()
+
+    return NextResponse.json(athlete)
+  } catch (error) {
+    console.error('Error creating athlete:', error)
+    return NextResponse.json({ message: 'Error creating athlete' }, { status: 500 })
+  }
 }
 
 // export const athletes: IAthlete[] = [

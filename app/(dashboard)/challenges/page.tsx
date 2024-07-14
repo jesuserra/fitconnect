@@ -9,6 +9,7 @@ import CreateChallenge from '@/app/components/Modals/CreateChallenge'
 import { useEffect, useState } from 'react'
 import { loadDifficultyChallenge } from '@/app/services/challengeServices'
 import Dropdown from '@/app/components/Dropdown'
+import MyCarousel from '@/app/components/Carousel/MyCarousel'
 
 export default function page () {
   const [difficulty, setDifficulty] = useState<number>(0)
@@ -28,6 +29,10 @@ export default function page () {
   return (
     <Container>
       <>
+        <h1 className='text-4xl font-bold text-white mb-4 my-10'>
+          Retos recomendados
+        </h1>
+        <MyCarousel />
         <Dropdown
           options={[
             { id: '0', value: 'Todos' },

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '../components/Header'
 import { ReactNode } from 'react'
+import { FilterProvider } from '../components/userContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +20,10 @@ export default function RootLayout ({
   return (
     <html lang='es'>
       <body className={inter.className}>
-        <Header />
-        {children}
+        <FilterProvider>
+          <Header />
+          {children}
+        </FilterProvider>
       </body>
     </html>
   )

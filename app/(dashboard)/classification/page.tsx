@@ -1,3 +1,5 @@
+'use client'
+
 import Container from '@/app/components/Container'
 import { IAthlete } from '@/app/models/Athlete'
 import React, { ReactElement, useEffect, useState } from 'react'
