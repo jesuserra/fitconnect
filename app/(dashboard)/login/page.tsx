@@ -19,7 +19,10 @@ export default function LoginPage (): ReactElement {
   const handleSubmitAthlete = async (e: FormEvent) => {
     e.preventDefault()
     const id = await login(athlete)
-    setState({ userId: id })
+    console.log(id)
+    if (id.message !== 'Athlete not found' && id.message !== 'Invalid password') {
+      setState({ userId: id.message })
+    }
   }
 
   return (

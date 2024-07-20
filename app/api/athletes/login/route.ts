@@ -11,7 +11,7 @@ export async function POST (request: NextRequest): Promise<NextResponse> {
     console.log(athlete)
     if (athlete !== null) {
       if (athlete.password === password) {
-        return NextResponse.json(athlete._id)
+        return NextResponse.json({ message: athlete._id })
       } else {
         return NextResponse.json({ message: 'Invalid password' })
       }

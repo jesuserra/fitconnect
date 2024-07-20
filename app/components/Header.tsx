@@ -8,6 +8,7 @@ import { FilterContext } from './userContext'
 import Button from './Button'
 import { getAthleteById } from '../services/athleteServices'
 import { IAthlete } from '../models/Athlete'
+import { useRouter } from 'next/navigation'
 
 const routes = [
   { name: 'Home', path: '/' },
@@ -17,7 +18,8 @@ const routes = [
   { name: 'Clasificación', path: '/classification' }
 ]
 export default function Header () {
-  const { state, setState } = useContext(FilterContext)
+  const router = useRouter()
+  const { state } = useContext(FilterContext)
   const [athlete, setAthlete] = useState<IAthlete>({
     username: '',
     name: '',
@@ -44,7 +46,11 @@ export default function Header () {
   [state.userId])
 
   const handleLogout = () => {
-    setState({ userId: '' })
+    // setState({ userId: '' })
+  }
+
+  const handleLogin = () => {
+    router.push('/login')
   }
 
   return (
@@ -53,9 +59,13 @@ export default function Header () {
         {routes.map((route) => (
           <ItemHeader title={route.name} href={route.path} key={route.path} />
         ))}
-        <Button onClick={handleLogout}>Logout</Button>
       </ul>
-      <Authenticated><>Hola {athlete.name}<User /></></Authenticated>
+      <Authenticated>
+        <>Hola {athlete.name}<User /></>
+      </Authenticated>
+      {state.userId !== undefined && state.userId !== null && state.userId !== ''
+        ? <Button onClick={handleLogout}>Cerrar sesión</Button>
+        : <Button onClick={handleLogin}>Iniciar sesión</Button>}
     </div>
   )
 }

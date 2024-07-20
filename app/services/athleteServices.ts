@@ -17,7 +17,7 @@ interface ILoginUser {
 }
 
 // Devolvera un string con el id del usuario
-export const login = async (loginUser: ILoginUser): Promise<string> => {
+export const login = async (loginUser: ILoginUser): Promise<{ message: string }> => {
   const res = await fetch('/api/athletes/login', {
     method: 'POST',
 
