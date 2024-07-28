@@ -1,14 +1,29 @@
 'use client'
 
-import { ReactElement, useContext } from 'react'
-import { FilterContext } from './userContext'
+import { useState, useEffect, ReactElement } from 'react'
+import { Session } from 'next-auth'
+import { getSession } from 'next-auth/react'
 
-export default function Authenticated ({ children }: { children: ReactElement }): ReactElement {
-  const { state } = useContext(FilterContext)
-  console.log(state)
-  if (state.userId !== undefined && state.userId !== null && state.userId !== '') {
+export default function Authenticated ({ children }: { children: ReactElement }) {
+  const [session, setSession] = useState<Session | null>(null)
+
+  useEffect(() => {
+    getSession()
+      .then((session) => {
+        console.log(session)
+        setSession(session)
+      })
+      .catch((error) => {
+        console.error(error)
+        setSession(null)
+      })
+  }, [])
+
+  if (session != null) {
     return (
-      <>{children}</>
+      <>
+        {children}
+      </>
     )
   } else {
     return (

@@ -1,3 +1,5 @@
+import { auth } from '@/auth'
+
 export const countries = [
   { id: 'es', value: 'España' },
   { id: 'us', value: 'Estados Unidos' },
@@ -26,4 +28,14 @@ export async function toBase64 (file: File): Promise<any> {
       reject(error)
     }
   })
+}
+
+export async function getSession () {
+  try {
+    const session = await auth()
+    return session
+  } catch (error) {
+    console.error(error)
+    return null
+  }
 }

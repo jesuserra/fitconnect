@@ -1,4 +1,4 @@
-import { connect } from 'mongoose'
+import { connect, disconnect } from 'mongoose'
 
 const conn = {
   isConnected: 0
@@ -12,11 +12,14 @@ export async function connectDB (): Promise<void> {
     console.log('Ya conectado')
     return
   }
-  const db = await connect('mongodb://localhost:27017/test')
+  const db = await connect(process.env.MONGODB_URI as string)
   conn.isConnected = db.connections[0].readyState
   console.log('Nombre BD: ', db.connection.db.databaseName, conn.isConnected)
 }
 
+export async function disconnectDB (): Promise<void> {
+  await disconnect()
+}
 // connection.on('connected', () => {
 //   console.log('Mongoose connected to db')
 // })

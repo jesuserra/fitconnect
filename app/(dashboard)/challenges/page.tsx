@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { loadDifficultyChallenge } from '@/app/services/challengeServices'
 import Dropdown from '@/app/components/Dropdown'
 import MyCarousel from '@/app/components/Carousel/MyCarousel'
+import Authenticated from '@/app/components/Authenticated'
 
 export default function page () {
   const [difficulty, setDifficulty] = useState<number>(0)
@@ -43,9 +44,11 @@ export default function page () {
           ]} onChange={(value) => setDifficulty(parseInt(value.id))}
         />
         <CreateChallenge />
-        <div className='w-full justify-end flex items-end mb-8'>
-          <Button onClick={openModal}>Subir reto</Button>
-        </div>
+        <Authenticated>
+          <div className='w-full justify-end flex items-end mb-8'>
+            <Button onClick={openModal}>Subir reto</Button>
+          </div>
+        </Authenticated>
         <div className={styles.grid}>
           {/* {challenges.map((challenge: IChallenge) => (
           <div key={challenge._id} className='mb-8'>

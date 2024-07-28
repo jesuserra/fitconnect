@@ -14,6 +14,7 @@ export async function POST (request: NextRequest): Promise<NextResponse> {
     const data = await request.json()
     const { username, name, surnames, age, country, email, password } = data
     const athlete = new Athlete({ username, name, surnames, age, country, email, password })
+    console.log(athlete)
     await athlete.save()
 
     return NextResponse.json(athlete)

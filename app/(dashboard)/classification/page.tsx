@@ -2,6 +2,7 @@
 
 import Container from '@/app/components/Container'
 import { IAthlete } from '@/app/models/Athlete'
+import { disconnectDB } from '@/app/utils/mongoose'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 export default function page (): ReactElement {
@@ -20,9 +21,10 @@ export default function page (): ReactElement {
   // }
 
   useEffect(() => {
-    loadAthletes()
-      .then(res => setAthletes(res))
-      .catch(err => console.log(err))
+    disconnectDB()
+    // loadAthletes()
+    //   .then(res => setAthletes(res))
+    //   .catch(err => console.log(err))
 
     // loadChallenges()
     // .then(res => setAthletes(res))

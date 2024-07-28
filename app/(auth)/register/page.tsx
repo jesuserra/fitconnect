@@ -6,7 +6,7 @@ import { ICreateAthlete } from '@/app/models/Athlete'
 import { createAthlete } from '@/app/services/athleteServices'
 import { countries } from '@/app/utils/Helpers'
 import { Input } from '@/components/ui/input'
-import { FormEvent, ReactElement, useState } from 'react'
+import { FormEvent, ReactElement, useEffect, useState } from 'react'
 import {
   Select,
   SelectContent,
@@ -25,6 +25,10 @@ export default function RegisterPage (): ReactElement {
     email: '',
     password: ''
   })
+
+  useEffect(() => {
+    console.log(athlete)
+  }, [athlete])
 
   const handleSubmitAthlete = async (e: FormEvent) => {
     e.preventDefault()
@@ -64,6 +68,7 @@ export default function RegisterPage (): ReactElement {
             </SelectContent>
           </Select>
           Contraseña
+          {/* await bcrypt.hash('123456789', 10) */}
           <Input type='password' placeholder='Contraseña' value={athlete.password} onChange={e => setAthlete({ ...athlete, password: e.target.value })} />
           <Button type='submit'>Enviar</Button>
         </form>

@@ -1,13 +1,12 @@
 'use client'
 
-import React, { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ItemHeader from './ItemHeader'
 import User from './User'
 import Authenticated from './Authenticated'
-import { FilterContext } from './userContext'
-import Button from './Button'
-import { getAthleteById } from '../services/athleteServices'
 import { IAthlete } from '../models/Athlete'
+import LogoutButton from './LogoutButton'
+import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 
 const routes = [
@@ -17,39 +16,18 @@ const routes = [
   { name: 'Atletas', path: '/athletes' },
   { name: 'Clasificación', path: '/classification' }
 ]
-export default function Header () {
+export default function Header ({ athlete }: { athlete?: IAthlete }) {
+  const [_athlete, setAthlete] = useState<IAthlete | null>(athlete ?? null)
   const router = useRouter()
-  const { state } = useContext(FilterContext)
-  const [athlete, setAthlete] = useState<IAthlete>({
-    username: '',
-    name: '',
-    surnames: '',
-    age: 0,
-    country: '',
-    email: '',
-    password: '',
-    _id: '',
-    createdAt: '',
-    updatedAt: '',
-    description: '',
-    image: '',
-    points: 0
-  })
-
   useEffect(() => {
-    getAthleteById(state.userId)
-      .then((athlete) => {
-        console.log(athlete)
-        setAthlete(athlete)
-      })
-  },
-  [state.userId])
+    if (athlete !== undefined) {
+      setAthlete(athlete)
+      return
+    }
+    console.log(_athlete)
+  }, [_athlete])
 
-  const handleLogout = () => {
-    // setState({ userId: '' })
-  }
-
-  const handleLogin = () => {
+  const handleClick = () => {
     router.push('/login')
   }
 
@@ -61,11 +39,11 @@ export default function Header () {
         ))}
       </ul>
       <Authenticated>
-        <>Hola {athlete.name}<User /></>
+        <div className='flex flex-row gap-2 items-center'>Bienvenido {_athlete?.name}<User /></div>
       </Authenticated>
-      {state.userId !== undefined && state.userId !== null && state.userId !== ''
-        ? <Button onClick={handleLogout}>Cerrar sesión</Button>
-        : <Button onClick={handleLogin}>Iniciar sesión</Button>}
+      {(_athlete !== null)
+        ? <LogoutButton />
+        : <Button onClick={handleClick}>Iniciar sesión</Button>}
     </div>
   )
 }

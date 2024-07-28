@@ -11,14 +11,14 @@ export const createAthlete = async (athlete: ICreateAthlete): Promise<void> => {
   })
 }
 
-interface ILoginUser {
-  username: string
+export interface ILoginUser {
+  email: string
   password: string
 }
 
 // Devolvera un string con el id del usuario
-export const login = async (loginUser: ILoginUser): Promise<{ message: string }> => {
-  const res = await fetch('/api/athletes/login', {
+export const login = async (loginUser: ILoginUser): Promise<any> => {
+  const res = await fetch(`${process.env.AUTH_URL as string}/api/athletes/login`, {
     method: 'POST',
 
     body: JSON.stringify(loginUser),
@@ -26,6 +26,7 @@ export const login = async (loginUser: ILoginUser): Promise<{ message: string }>
       'Content-Type': 'application/json'
     }
   })
+  console.log(res)
   const data = await res.json()
   console.log(data)
   return data

@@ -18,6 +18,12 @@ const athleteSchema = new Schema({
     required: [true, 'Surname is required'],
     trim: true
   },
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    unique: true,
+    trim: true
+  },
   age: Number,
   country: {
     type: String,
