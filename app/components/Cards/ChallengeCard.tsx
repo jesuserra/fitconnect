@@ -5,8 +5,8 @@ import Button from '../Button'
 import UpButton from '../UpButton'
 import DownButton from '../DownButton'
 import { IChallenge } from '@/app/models/Challenge'
-import CommentModal from '../Modals/CommentModal'
 import { useRouter } from 'next/navigation'
+import { addDislike, addLike } from '@/app/services/challengeServices'
 
 export default function ChallengeCard ({ challenge }: { challenge: IChallenge }): ReactElement {
   const router = useRouter()
@@ -26,24 +26,12 @@ export default function ChallengeCard ({ challenge }: { challenge: IChallenge })
     }
   }
 
-  const addLike = async (): Promise<void> => {
-    try {
-      await fetch(`/api/challenges/${challenge._id}/like`, {
-        method: 'PUT'
-      })
-    } catch (error: any) {
-      console.error('Error adding like:', error)
-    }
+  const handleLike = (): void => {
+    addLike(challenge._id)
   }
 
-  const addDislike = async (): Promise<void> => {
-    try {
-      await fetch(`/api/challenges/${challenge._id}/dislike`, {
-        method: 'PUT'
-      })
-    } catch (error: any) {
-      console.error('Error adding like:', error)
-    }
+  const handleDislike = (): void => {
+    addDislike(challenge._id)
   }
 
   return (
@@ -79,15 +67,14 @@ export default function ChallengeCard ({ challenge }: { challenge: IChallenge })
         {showActions && (
           <div className='flex items-center opacity-75 bg-black mx-9 w-[504px] absolute bottom-[-30px] gap-4 p-2 rounded-xl z-20'>
             <div>
-              <UpButton clicked={false} onClick={addLike} />
-              <DownButton clicked={false} onClick={addDislike} />
+              <UpButton clicked={false} onClick={handleLike} />
+              <DownButton clicked={false} onClick={handleDislike} />
             </div>
             <span className='font-bold text-white'>
               <button onClick={() => openModal(challenge._id)}>
                 Ver comentarios
               </button>
               {challenge.likes}
-              <CommentModal />
             </span>
           </div>
         )}

@@ -1,5 +1,11 @@
 import { IChallenge, ICreateChallenge } from '../models/Challenge'
 
+export const loadChallenge = async (id: string): Promise<IChallenge> => {
+  const res = await fetch(`/api/challenges/${id}`)
+  const data = await res.json()
+  return data
+}
+
 export const loadChallenges = async (): Promise<IChallenge[]> => {
   const res = await fetch('/api/challenges')
   const data = await res.json()
@@ -12,24 +18,21 @@ export const loadUnapprovedChallenges = async (): Promise<IChallenge[]> => {
   return data
 }
 
-export const loadDifficultyChallenge = async (difficulty: number): Promise<IChallenge[]> => {
-  // retornar los retos que tengan la dificultad que se le pase y esten
+// retornar los retos que tengan la dificultad que se le pase y esten aprobados
+export const loadDifficultyChallenges = async (difficulty: number): Promise<IChallenge[]> => {
   const res = await fetch(`/api/challenges?difficulty=${difficulty}&approved=true`)
   const data = await res.json()
   return data
 }
 
 export const createChallenge = async (challenge: ICreateChallenge): Promise<void> => {
-  const formData = new FormData()
-  formData.append('title', challenge.title)
-  formData.append('description', challenge.description)
-  formData.append('difficulty', challenge.difficulty.toString())
-  formData.append('points', challenge.points.toString())
-  formData.append('createdBy', challenge.createdBy)
-
+  console.log(challenge)
   await fetch('/api/challenges', {
     method: 'POST',
-    body: formData
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(challenge)
   })
 }
 
@@ -59,4 +62,24 @@ export const addImageChallenge = async (challenge: IChallenge, file: File): Prom
     method: 'PUT',
     body: formData
   })
+}
+
+export const addLike = async (challengeId: string): Promise<void> => {
+  try {
+    await fetch(`/api/challenges/${challengeId}/like`, {
+      method: 'PUT'
+    })
+  } catch (error: any) {
+    console.error('Error adding like:', error)
+  }
+}
+
+export const addDislike = async (challengeId: string): Promise<void> => {
+  try {
+    await fetch(`/api/challenges/${challengeId}/dislike`, {
+      method: 'PUT'
+    })
+  } catch (error: any) {
+    console.error('Error adding like:', error)
+  }
 }

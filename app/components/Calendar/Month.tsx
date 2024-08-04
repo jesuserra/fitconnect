@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import Day from './Day'
 
-interface IDate {
+export interface IDate {
   date: string
   description: string
 }
@@ -12,13 +12,13 @@ interface MonthProps {
   year: number
   firstDay: number
   numberMonth: number
-  festivos: IDate[]
+  trains: IDate[]
   resourceId?: string
   onDayClick: (month: number, day: number, description?: string) => void
   handleAddTraining: (month: number, day: number, train: string) => void
 }
 
-export default function Month ({ festivos, numberMonth, year, month, days, firstDay, onDayClick, handleAddTraining }: MonthProps): ReactElement {
+export default function Month ({ trains, numberMonth, year, month, days, firstDay, onDayClick, handleAddTraining }: MonthProps): ReactElement {
   const daysHeader1 = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
   let isWeekend = false
 
@@ -46,7 +46,7 @@ export default function Month ({ festivos, numberMonth, year, month, days, first
           const paddedMonth = (numberMonth + 1).toString().padStart(2, '0')
 
           // Es festivo unico si el día de inicio y fin son iguales y el día de inicio es igual al día actual
-          const festivoUnico = festivos?.find((f) => (f.date === `${year}-${paddedMonth}-${paddedDay}`))
+          const festivoUnico = trains?.find((f) => (f.date === `${year}-${paddedMonth}-${paddedDay}`))
 
           // Hoy
           let type = 'normal' as 'normal' | 'today' | 'holiday' | 'weekend'

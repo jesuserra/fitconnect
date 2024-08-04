@@ -5,9 +5,9 @@ import styles from './page.module.css'
 import Container from '@/app/components/Container'
 import { IChallenge } from '@/app/models/Challenge'
 import Button from '@/app/components/Button'
-import CreateChallenge from '@/app/components/Modals/CreateChallenge'
+import CreateChallengeModal from '@/app/components/Modals/CreateChallengeModal'
 import { useEffect, useState } from 'react'
-import { loadDifficultyChallenge } from '@/app/services/challengeServices'
+import { loadDifficultyChallenges } from '@/app/services/challengeServices'
 import Dropdown from '@/app/components/Dropdown'
 import MyCarousel from '@/app/components/Carousel/MyCarousel'
 import Authenticated from '@/app/components/Authenticated'
@@ -22,7 +22,7 @@ export default function page () {
   const [challengesApi, setChallengesApi] = useState<IChallenge[]>([])
 
   useEffect(() => {
-    loadDifficultyChallenge(difficulty)
+    loadDifficultyChallenges(difficulty)
       .then(res => setChallengesApi(res))
       .catch(err => console.log(err))
   }, [difficulty])
@@ -30,32 +30,26 @@ export default function page () {
   return (
     <Container>
       <>
+        <CreateChallengeModal />
         <h1 className='text-4xl font-bold text-white mb-4 my-10'>
           Retos recomendados
         </h1>
         <MyCarousel />
-        <Dropdown
-          options={[
-            { id: '0', value: 'Todos' },
-            { id: '1', value: 'Fácil' },
-            { id: '2', value: 'Medio' },
-            { id: '3', value: 'Dificil' },
-            { id: '4', value: 'Muy dificil' }
-          ]} onChange={(value) => setDifficulty(parseInt(value.id))}
-        />
-        <CreateChallenge />
-        <Authenticated>
-          <div className='w-full justify-end flex items-end mb-8'>
-            <Button onClick={openModal}>Subir reto</Button>
-          </div>
-        </Authenticated>
+        <div className='flex flex-row justify-between py-4'>
+          <Dropdown
+            options={[
+              { id: '0', value: 'Todos' },
+              { id: '1', value: 'Fácil' },
+              { id: '2', value: 'Medio' },
+              { id: '3', value: 'Dificil' },
+              { id: '4', value: 'Muy dificil' }
+            ]} onChange={(value) => setDifficulty(parseInt(value.id))}
+          />
+          <Authenticated>
+            <Button onClick={openModal}>Publicar reto</Button>
+          </Authenticated>
+        </div>
         <div className={styles.grid}>
-          {/* {challenges.map((challenge: IChallenge) => (
-          <div key={challenge._id} className='mb-8'>
-            <ChallengeCard challenge={challenge} />
-          </div>
-        ))}
-      </div> */}
           {challengesApi.length === 0
             ? <p className='text-center'>No hay retos disponibles</p>
             : challengesApi.map((challenge: IChallenge) => (

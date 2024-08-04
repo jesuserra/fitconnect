@@ -1,8 +1,23 @@
+import { Schema, model, models } from 'mongoose'
+
+const commentSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'Athlete', required: true },
+  challengeId: { type: Schema.Types.ObjectId, ref: 'Challenge', required: true },
+  content: { type: String, required: true }
+}, { timestamps: true })
+
+export default models?.Comment || model('Comment', commentSchema)
+
 export interface IComment {
   id: string
-  user_id: string
-  reference_id: string
+  userId: string
+  challengeId: string
   content: string
-  type: 'Challenge' | 'Post'
-  created_at: string
+  createdAt: string
+}
+
+export interface ICreateComment {
+  userId: string
+  challengeId: string
+  content: string
 }

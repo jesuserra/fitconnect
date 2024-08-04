@@ -1,28 +1,35 @@
-import { IComment } from '@/app/models/Comment'
+import Comment from '@/app/models/Comment'
+import { connectDB } from '@/app/utils/mongoose'
+import { NextResponse } from 'next/server'
 
-export const comments: IComment[] = [
-  {
-    id: 'comment1',
-    type: 'Challenge',
-    content: 'Reto Murph compeltado correctamente en 22 minutos',
-    user_id: 'athlete1',
-    created_at: '2023-05-01T10:00:00Z',
-    reference_id: 'challenge1'
-  },
-  {
-    id: 'comment2',
-    type: 'Challenge',
-    content: 'Segundo comentario',
-    user_id: 'athlete1',
-    created_at: '2023-05-01T10:00:00Z',
-    reference_id: 'challenge1'
-  },
-  {
-    id: 'comment3',
-    type: 'Challenge',
-    content: 'Muy buen reto',
-    user_id: 'athlete2',
-    created_at: '2023-05-01T10:00:00Z',
-    reference_id: 'challenge2'
+export async function GET (request: Request): Promise<NextResponse> {
+  connectDB()
+  console.log(request.url)
+  try {
+    const url = new URL(request.url)
+    const challengeId = url.searchParams.get('challengeId')
+    const comments = await Comment.find({ challengeId })
+    return NextResponse.json(comments)
+  } catch (error: any) {
+    return NextResponse.json(error.message, {
+      status: 400
+    })
   }
-]
+}
+
+export async function POST (request: any): Promise<NextResponse> {
+  await connectDB()
+  try {
+    const data = await request.json()
+    console.log(data)
+    const comment = new Comment(data)
+
+    await comment.save()
+    return NextResponse.json(data)
+  } catch (error: any) {
+    console.log(error)
+    return NextResponse.json(error.message, {
+      status: 400
+    })
+  }
+}

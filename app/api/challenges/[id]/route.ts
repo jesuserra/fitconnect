@@ -3,6 +3,7 @@ import { connectDB } from '@/app/utils/mongoose'
 import { NextResponse } from 'next/server'
 
 export async function GET (request: any, { params }: { params: any }): Promise<NextResponse> {
+  connectDB()
   try {
     const ChallengeFound = await Challenge.findById(params.id)
     if (ChallengeFound === null) {
@@ -12,6 +13,7 @@ export async function GET (request: any, { params }: { params: any }): Promise<N
     }
     return NextResponse.json(ChallengeFound)
   } catch (error: any) {
+    console.log(error)
     return NextResponse.json(error.message, {
       status: 400
     })
@@ -22,7 +24,6 @@ export async function PUT (request: any, { params }: { params: any }): Promise<N
   connectDB()
   try {
     const data = await request.json()
-    console.log('aa', data)
     const challengeUpdated = await Challenge.findByIdAndUpdate(params.id, data, { new: true })
     return NextResponse.json(challengeUpdated)
   } catch (error: any) {

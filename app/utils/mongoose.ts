@@ -18,6 +18,7 @@ export async function connectDB (): Promise<void> {
 }
 
 export async function disconnectDB (): Promise<void> {
+  console.log('Disconnecting from db')
   await disconnect()
 }
 // connection.on('connected', () => {

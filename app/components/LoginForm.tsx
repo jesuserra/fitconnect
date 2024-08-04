@@ -1,7 +1,5 @@
 'use client'
 
-// import { FilterContext } from './userContext'
-// import { login } from '../services/athleteServices'
 import { Input } from '@/components/ui/input'
 import Button from './Button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -69,8 +67,7 @@ export default function LoginForm () {
             </FormItem>
           )}
         />
-
-        <Button type='submit'>Submit</Button>
+        <Button type='submit'>Iniciar sesión</Button>
       </form>
     </Form>
   )

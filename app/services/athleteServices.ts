@@ -1,9 +1,20 @@
-import { IAthlete, ICreateAthlete } from '../models/Athlete'
+import { IAthlete, ICreateAthlete, ICreateAthleteGoogle } from '../models/Athlete'
 
 export const createAthlete = async (athlete: ICreateAthlete): Promise<void> => {
   await fetch('/api/athletes', {
     method: 'POST',
 
+    body: JSON.stringify(athlete),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export const createAthleteByGoogle = async (athlete: ICreateAthleteGoogle): Promise<void> => {
+  console.log('entro')
+  await fetch(`/api/athletes/${athlete.id}`, {
+    method: 'POST',
     body: JSON.stringify(athlete),
     headers: {
       'Content-Type': 'application/json'

@@ -10,7 +10,6 @@ export default function Authenticated ({ children }: { children: ReactElement })
   useEffect(() => {
     getSession()
       .then((session) => {
-        console.log(session)
         setSession(session)
       })
       .catch((error) => {

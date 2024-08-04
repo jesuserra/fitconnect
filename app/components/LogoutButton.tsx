@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
 import { signOut } from 'next-auth/react'
 import React from 'react'
+import Button from './Button'
 
 export default function LogoutButton () {
   const handleLogout = async () => {
@@ -11,6 +11,6 @@ export default function LogoutButton () {
   }
 
   return (
-    <Button onClick={handleLogout}>Cerrar session</Button>
+    <Button onClick={handleLogout}>Cerrar sesion</Button>
   )
 }

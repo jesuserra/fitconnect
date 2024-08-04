@@ -1,15 +1,21 @@
 import { Schema, model, models } from 'mongoose'
 
+// Facil, medio, dificil, muy dificil
+const difficultyChallenge = [1, 2, 3, 4]
+// 1 Tiempo, 2 Repeticiones, 3 Booleano
+const typeChallenge = [1, 2, 3]
+
 const challengeSchema = new Schema({
+  createdBy: { type: Schema.Types.ObjectId, ref: 'Athlete' },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  difficulty: { type: Number, required: true },
-  points: { type: Number, default: 0 },
-  likes: { type: Number, required: true, default: 0 },
-  urlImage: { type: String, required: false },
+  difficulty: { type: Number, enum: difficultyChallenge, required: true },
+  points: { type: Number, default: 0, required: true },
+  likes: { type: Number, default: 0, required: true },
+  type: { type: Number, enum: typeChallenge, required: false },
   approved: { type: Boolean, default: false },
-  createdBy: { type: Schema.Types.ObjectId, ref: 'Athlete' }
-})
+  urlImage: { type: String, required: false }
+}, { timestamps: true })
 
 // Verifica si el modelo ya existe, si no lo crea con model('Challenge', challengeSchema)
 // Al crearlo con model (), mongoose se lo guarda internamente
@@ -18,30 +24,23 @@ export default models?.Challenge || model('Challenge', challengeSchema)
 
 export interface IChallenge {
   _id: string
-  createdAt?: string
-  updatedAt?: string
-
+  createdBy: string
   title: string
   description: string
   difficulty: 1 | 2 | 3 | 4
   points: number
-  likes?: number
-  urlImage?: string
+  likes: number
+  type: 1 | 2 | 3
   approved: boolean
-  createdBy: string
+  urlImage: string
+
+  createdAt: string
+  updatedAt: string
 }
 
 export interface ICreateChallenge {
-  // _id?: string
-  // createdAt?: string
-  // updatedAt?: string
-
   title: string
   description: string
   difficulty: 1 | 2 | 3 | 4
-  points: number
-  likes?: number
-  urlImage?: string
-  approved?: boolean
   createdBy: string
 }

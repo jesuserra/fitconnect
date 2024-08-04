@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Button from './Button'
 import UpButton from './UpButton'
 import DownButton from './DownButton'
-import CommentModal from './Modals/CommentModal'
 import { useRouter } from 'next/navigation'
 import { IRoutine } from '@/app/models/Routines'
 
@@ -65,7 +64,6 @@ export default function RoutineCard ({ routine }: { routine: IRoutine }) {
             </div>
             <span className='font-bold text-white'>
               <button onClick={() => openModal(routine.id)}>Ver comentarios</button>
-              <CommentModal handleClose={closeModal} />
             </span>
           </div>
         )}

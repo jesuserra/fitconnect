@@ -94,6 +94,12 @@ export function formatLocaleShortDate (date: Date): string {
   return Intl.DateTimeFormat(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date)
 }
 
+// Recibe esta fecha 2024-08-02T00:00:00.000Z y devuelve 02 ago 2024
+export const formatDateSpanish = (date: string): string => {
+  const _date = new Date(date)
+  return Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).format(_date)
+}
+
 // La que necesita el inputDate yyyy-mm-dd
 export function formatDateInput (date: Date): string {
   const year = date.getFullYear()

@@ -32,7 +32,7 @@ const athleteSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required']
+    required: [false]
   }
 }, {
   timestamps: true
@@ -52,9 +52,9 @@ export interface IAthlete {
   surnames: string
   age: number
   country: string
-  description: string
+  description?: string
   email: string
-  password: string
+  password?: string
   image: string
   points: number
   badges?: IBadge[]
@@ -68,4 +68,11 @@ export interface ICreateAthlete {
   country: string
   email: string
   password: string
+}
+
+export interface ICreateAthleteGoogle {
+  id: string
+  name: string
+  email: string
+  image: string
 }

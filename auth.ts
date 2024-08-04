@@ -3,12 +3,13 @@ import { MongoDBAdapter } from '@auth/mongodb-adapter'
 import clientPromise from './lib/db'
 import Credentials from 'next-auth/providers/credentials'
 import { loginSchema } from './lib/zod'
-import { login } from './app/services/athleteServices'
-// import { saltAndHashPassword } from '@/utils/password'
+import { createAthleteByGoogle, login } from './app/services/athleteServices'
+import Google from 'next-auth/providers/google'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [
+    Google,
     Credentials({
       credentials: {
         email: { label: 'Email', type: 'email' },
@@ -37,5 +38,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     })
   ],
-  session: { strategy: 'jwt' }
+  session: { strategy: 'jwt' },
+  events: {
+    async signIn (message) {
+      console.log('signIn', message)
+      console.log('signIn', message.user.id)
+      console.log(message.isNewUser)
+      await createAthleteByGoogle({
+        id: message.user.id ?? 'unknown',
+        name: message.user.name ?? 'unknown',
+        email: message.user.email ?? 'unknown',
+        image: message.user.image ?? 'unknown'
+      })
+    }
+  },
+  pages: {
+    signIn: '/login',
+    signOut: '/',
+    error: '/login'
+  }
 })

@@ -7,7 +7,7 @@ export async function PUT (req: Request, { params: { id } }: { params: { id: str
 
   try {
     const challenge = await Challenge.findById(id)
-    if (!challenge) {
+    if (challenge === null) {
       return NextResponse.json({ message: 'Challenge not found' }, { status: 400 })
     }
     const data = await Challenge.updateOne(

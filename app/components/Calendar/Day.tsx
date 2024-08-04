@@ -11,7 +11,7 @@ export interface DayProps {
 }
 
 export default function Day ({ day, type, description, handleDayClick, handleAddTraining }: DayProps): ReactElement {
-  const [train, setTrain] = useState('' as string)
+  const [train, setTrain] = useState(description)
   const getBackgroundColor = (type?: 'normal' | 'today' | 'holiday' | 'weekend') => {
     switch (type) {
       case 'today':
@@ -63,12 +63,10 @@ export default function Day ({ day, type, description, handleDayClick, handleAdd
         <DialogHeader>
           <DialogTitle>¿Deseas añadir un entrenamiento?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
             {/* <DescriptionTextEditor initialState={null} handleBlur={(e) => console.log(JSON.stringify(e))} /> */}
-            <textarea className='w-full h-40' onChange={(e) => setTrain(e.target.value)} />
+            <textarea className='w-full h-40' onChange={(e) => setTrain(e.target.value)} value={train} />
             <Button onClick={() => {
-              handleAddTraining(day, train)
+              handleAddTraining(day, train ?? '')
             }}
             >Submit
             </Button>
